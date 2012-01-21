@@ -9,3 +9,5 @@ Requires:
 - opencv
 - numpy
 - pygame
+
+[Results](http://www.flickr.com/photos/gloryfish/6734236987/)
