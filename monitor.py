@@ -9,18 +9,16 @@ class Monitor:
         self.threshhold = 200
         self.save_images = False
         self.display_type = 'original'
+        self.camera = cv.CaptureFromCAM(-1)
     
     def capture(self, filename = None):
         self.image = None
         
         if filename == None:
             # capture from open cv
-            capture = cv.CaptureFromCAM(-1)
-            self.image = cv.QueryFrame(capture)
-            print 'Captured from camera'
+            self.image = cv.QueryFrame(self.camera)
         else:
             self.image = cv.LoadImage(filename)
-            print 'Captured from file'
         
         self.output = cv.CloneImage(self.image)
         self.gray = cv.CreateImage(cv.GetSize(self.image), cv.IPL_DEPTH_8U, 1)
@@ -33,7 +31,6 @@ class Monitor:
         # Create an edge-detected version
         cv.Canny(self.gray, self.edges, self.threshhold, self.threshhold / 2, 3)
 
-        print 'Scanning...'
         hough_results = cv.CreateMat(640, 1, cv.CV_32FC3)
         
         cv.HoughCircles(self.gray, hough_results, cv.CV_HOUGH_GRADIENT, 2, self.gray.width / 18, self.threshhold, 300, 0, 0)
@@ -119,6 +116,16 @@ if __name__ == '__main__':
 
         display_text = font.render(display_type, 1, (255, 255, 255))
         screen.blit(display_text, (11, 11))
+
+        #  Render fps
+        fps = str(clock.get_fps())
+        fps_text = font.render(fps, 1, (0, 0, 0))
+        screen.blit(fps_text, (10, 30))
+
+        fps_text = font.render(fps, 1, (255, 255, 255))
+        screen.blit(fps_text, (11, 31))
+
+
 
         clock.tick(30)
         pygame.display.flip()
