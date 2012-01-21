@@ -1,0 +1,11 @@
+# Detecting Plates
+
+This script uses OpenCV to fetch webcam images, uses Hough circle detection to find circular shapes in the image, draws the circles and then outputs the frame to a pygame surface.
+
+Based on code from [https://github.com/fridgehead/Dish-Detector]().
+
+Requires:
+
+- opencv
+- numpy
+- pygame
